@@ -13,6 +13,7 @@ public:
         // Draw the edges between the nodes
         for (int i = 0; i < dislikes.size(); ++i) {
             graph[dislikes[i][0]]->push_back(dislikes[i][1]);
+            graph[dislikes[i][1]]->push_back(dislikes[i][0]);
         }
 
         // Try paint all nodes with alternating colors
