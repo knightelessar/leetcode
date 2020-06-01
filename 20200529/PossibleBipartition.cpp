@@ -1,13 +1,13 @@
 class Solution {
 public:
-    vector<int>** graph;
+    shared_ptr<shared_ptr<vector<int>>> graph;
     unordered_map<int, int> colorMask;
 
     bool possibleBipartition(int N, vector<vector<int>>& dislikes) {
         // Initialize graph of people nodes
-        graph = new vector<int>*[N+1];
+        graph = shared_ptr<shared_ptr<vector<int>>[]>(new shared_ptr<vector<int>>[N+1]);
         for (int i = 1; i <= N; ++i) {
-            graph[i] = new vector<int>;
+            graph[i] = shared_ptr<vector<int>>(new vector<int>);
         }
         
         // Draw the edges between the nodes
