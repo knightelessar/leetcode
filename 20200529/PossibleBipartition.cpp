@@ -1,6 +1,6 @@
 class Solution {
 public:
-    shared_ptr<shared_ptr<vector<int>>> graph;
+    shared_ptr<shared_ptr<vector<int>>[]> graph;
     unordered_map<int, int> colorMask;
 
     bool possibleBipartition(int N, vector<vector<int>>& dislikes) {
