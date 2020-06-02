@@ -6,18 +6,12 @@ public:
             float distRight = sqrt(pow(right[0], 2) + pow(right[1], 2));
             return distLeft < distRight;
         };
-        priority_queue<vector<int>, vector<vector<int>>, decltype(cmp)> closestPoints(cmp);
-        for (vector<int> p: points) {
-            closestPoints.push(p);
-            if (closestPoints.size() > K) {
-                closestPoints.pop();
-            }
-        }
+
+        nth_element(points.begin(), points.begin() + K, points.end(), cmp);
         
         vector<vector<int>> smallestK;
         for (int i{0}; i < K; ++i) {
-            smallestK.push_back(closestPoints.top());
-            closestPoints.pop();
+            smallestK.push_back(points[i]);
         }
         
         return smallestK;
