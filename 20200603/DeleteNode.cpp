@@ -12,13 +12,13 @@ public:
         // prevNode -> node, we cannot change prevNode
         
         // get pointer to nextNode
-        ListNode* nextNode = node->next;
+        ListNode temp;
         
-        // make node the same as nextNode
-        node->val = nextNode->val;
-        node->next = nextNode->next;
+        // swap temp node with the nextNode
+        swap(*node, temp);
+        swap(*node, *(temp.next));
         
         // release resources for nextNode
-        delete nextNode;
+        // when temp goes out of scope
     }
 };
