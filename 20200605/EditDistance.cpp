@@ -41,7 +41,7 @@ public:
                 cout << word1.substr(0, i-1) << " and " << word2.substr(0, j-1);
                 cout << " is " << distParW1ParW2 << endl;
                 
-                bool isLastCharSame = (word1[i] == word2[j]);
+                bool isLastCharSame = (word1[i] == word2[j]); // <== bug is here
                 cout << word1.substr(0, i) << " and " << word2.substr(0, j);
                 cout << " has " << (isLastCharSame ? "same" : "different") << " last char ";
                 cout << word1[i-1] << " and " << word2[j-1] << endl;
