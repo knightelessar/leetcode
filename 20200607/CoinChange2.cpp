@@ -1,5 +1,6 @@
 class Solution {
 public:
+    unordered_map<int, unordered_map<int, int>> ways; // key: rest, value: pair<currCoin, nWays>
     int change(int amount, vector<int>& coins) {
         // Sort the coins in ascending order
         sort(begin(coins), end(coins), greater());
@@ -16,6 +17,11 @@ public:
             return rest % coins[coinType] == 0 ? 1 : 0;
         }
         
+        if (ways.find(rest) != ways.end()) {
+            if (ways[rest].find(coinType) != ways[rest].end())
+            return ways[rest][coinType];
+        }
+
         int nWay = 0;
         int maxCoinType = rest / coins[coinType];
         
@@ -24,6 +30,9 @@ public:
                                         coins,
                                         coinType + 1,
                                         lastCoinType);
+        }
+        if (ways.find(rest) == ways.end() || ways[rest].find(coinType) == ways[rest].end()){
+            ways[rest][coinType] = nWay;
         }
         return nWay;
     }
