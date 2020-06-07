@@ -5,7 +5,7 @@ public:
         pCurr = 0;
         p0r = 0;
         p2l = nums.size() - 1;
-        while (pCurr < p2l) {
+        while (pCurr <= p2l) {
             if (nums[pCurr] == 0) {
                 swap(nums[pCurr], nums[p0r]);
                 ++p0r;
