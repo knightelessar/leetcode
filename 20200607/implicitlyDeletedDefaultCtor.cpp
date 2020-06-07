@@ -3,7 +3,7 @@
 #include <utility>
 
 struct mySol {
-    std::unordered_map<int, int> myWay;
+    std::unordered_map<std::pair<int, int>, int> myWay;
     int run() {
         return 0;
     };
@@ -11,5 +11,5 @@ struct mySol {
 
 int main() {
     int i = mySol().run();
-    return 0;
+    return i;
 }
