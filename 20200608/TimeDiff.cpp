@@ -18,4 +18,11 @@ int main() {
     endTimeSpec.tm_sec = 0; // seconds after the minute [0, 60]
     mktime(&endTimeSpec);
     cout << "end time: \t" << put_time(&endTimeSpec , "%I:%M %p") << endl;
+
+    tm startTime = tm(endTimeSpec);
+    // back time up by 1h40m
+    startTime.tm_hour -= 1;
+    startTime.tm_min -= 40;
+    mktime(&startTime);
+    cout << "start time: \t" << put_time(&startTime , "%I:%M %p") << endl;
 }
