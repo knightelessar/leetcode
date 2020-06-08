@@ -1,6 +1,7 @@
 // Now is 12:30 pm, my timer is 1h40m, when did I start the timer?
 // Use C++ ctime library to output the start time in hh:mm am format.
-
+// compile and run
+// g++ -Wall -std=c++14 TimeDiff.cpp -o time.out && ./time.out
 #include <iostream>
 #include <ctime>
 #include <chrono>
