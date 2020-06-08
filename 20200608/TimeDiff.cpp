@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <ctime>
+#include <chrono>
+#include <iomanip>
 using namespace std;
 
 int main() {
@@ -14,13 +16,5 @@ int main() {
     endTimeSpec.tm_min = 30; // minutes after the hour [0, 59]
     endTimeSpec.tm_sec = 0; // seconds after the minute [0, 60]
     mktime(&endTimeSpec);
-    cout << "end time: \t" << asctime(&endTimeSpec) << endl;
-
-    tm startTime = tm(endTimeSpec);
-    // back time up by 1h40m
-    startTime.tm_hour -= 1;
-    startTime.tm_min -= 40;
-    mktime(&startTime);
-    cout << "start time: \t" << asctime(&startTime) << endl;
+    cout << "end time: \t" << put_time(&endTimeSpec , "%I:%M %p") << endl;
 }
-
