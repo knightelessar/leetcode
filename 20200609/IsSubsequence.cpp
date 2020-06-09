@@ -10,37 +10,21 @@ public:
         // Edit distance 2D array of s.size() + 1 rows
         // and t.size() + 1 columns
         vector<vector<int>> dist(s.size() + 1);
-        vector<vector<int>> del(s.size() + 1);
         for (size_t i{0}; i <= s.size(); ++i)
         {
             dist[i].insert(begin(dist[i]), t.size() + 1, 0);
-            cout << "row.size = " << dist[i].size() << endl;
         }
-        cout << "dist[0].size() = " << dist[0].size() << endl; 
-        cout << "dist[0].empty() = " << dist[0].empty() << endl; 
-        cout << "dist[1].size() = " << dist[0].size() << endl; 
-        cout << "dist[1].empty() = " << dist[0].empty() << endl; 
-        for (size_t i{0}; i <= s.size(); ++i)
-        {
-            del[i].insert(begin(del[i]), t.size() + 1, 0);
-        }
-        cout << "initilization done" << endl;
         
-        // Levenstein distance
+        // Simplified Levenshtein delete distance
         // Boundary condition
-        cout << "before first column init" << endl;
         for (size_t i{0}; i <= s.size(); ++i)
         {
-            cout << "dist[" << i << "][0] = " << i << endl;
-            dist[i][0] = i;
+            dist[i][0] = 0;
         }
-        cout << "after first column init" << endl;
-        cout << "before first row init" << endl;
         for (size_t j{0}; j <= t.size(); ++j)
         {
-            dist[0][j] = j;
+            dist[0][j] = 0;
         }
-        cout << "after first row init" << endl;
 
         // Induction cases
         cout << "before induction cases" << endl;
@@ -52,11 +36,13 @@ public:
                 int dTop = dist[i-1][j];
                 bool isCharSame = s[i-1] == t[j-1];
                 int dTopLeft = dist[i-1][j-1];
-                dist[i][j] = min(min(dLeft, dTop) + 1, dTopLeft + (isCharSame ? 0 : 1) );
-                if (!isCharSame && dLeft == min(min(dLeft, dTop), dTopLeft))
+                if (isCharSame)
                 {
-                    // A delete operation from target t to source s
-                    del[i][j] = 1;
+                    dist[i][j] = dTopLeft + 1;
+                }
+                else
+                {
+                    dist[i][j] = max(dLeft, dTop);
                 }
             }
         }
@@ -90,48 +76,18 @@ public:
             cout << endl;
         }
 
-        cout << "del array" << endl;
-        cout << "x" << " " << "_" << " ";
-        for (size_t j{0}; j < t.size(); ++j)
-        {
-            cout << t[j] << " ";
-        }
-        cout << endl;
-        cout << "_" << " ";
-        for (size_t j{0}; j < del[0].size(); ++j)
-        {
-            cout << del[0][j] << " ";
-        }
-        cout << endl;
-        for (size_t i{1}; i < del.size(); ++i)
-        {
-            cout << s[i-1] << " ";
-            for (size_t j{0}; j < del[0].size(); ++j)
-            {
-                cout << del[i][j] << " ";
-            }
-            cout << endl;
-        }
-
         cout << "after induction cases" << endl;
-        size_t editDist = dist[s.size()][t.size()];
-        cout << "edit distance = " << editDist << endl;
-        cout << "after get edit distance" << endl;
 
-        // Check the del operations and Levenstein distance
-        cout << "before counting number of delete operations" << endl;
-        size_t nDiagDel{0};
-        for (size_t i{0}; i <= min(s.size(), t.size()); ++i)
+        bool isConsumed{false};
+        for (auto x: dist[s.size()])
         {
-            if (del[i][i] == 1)
+            if (x == s.size())
             {
-                nDiagDel++;
+                isConsumed = true;
+                break;
             }
         }
-        cout << "number of diagnal delete operations = " << nDiagDel << endl;
-        cout << "after counting number of delete operations" << endl;
-        
-        return (editDist == (t.size() - s.size()))
-            && (nDiagDel == (t.size() - s.size()));
+
+        return isConsumed;
     }
 };
