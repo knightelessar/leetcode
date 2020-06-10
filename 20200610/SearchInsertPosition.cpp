@@ -9,19 +9,16 @@ public:
         {
             return nums.size();
         }
-        // Binary search
-        size_t left{0};
-        size_t right{nums.size() - 1};
-        size_t mid{0};
-        while (left < right) {
-            mid = (left + right) / 2;
-            if (target <= nums[mid]) {
-                right = mid;
+        // Linear walk
+        size_t pos{0};
+        for (auto it = cbegin(nums); it != cend(nums); ++it)
+        {
+            if (target <= *it)
+            {
+                break;
             }
-            else {
-                left = mid + 1;
-            }
+            pos++;
         }
-        return left;
+        return pos;
     }
 };
