@@ -10,32 +10,30 @@
  * };
  */
 class Solution {
-    size_t preIdx;
     vector<int> preorder;
-    unordered_map<int, size_t> map; // val: inorder idx
+    size_t preIdx;
 public:
     TreeNode* bstFromPreorder(vector<int>& preorder) {
         this->preorder = preorder;
-        vector<int> inorder = preorder;
-        sort(begin(inorder), end(inorder));
-        for (size_t i{0}; i < inorder.size(); ++i)
-        {
-            map[inorder[i]] = i;
-        }
         preIdx = 0;
-        return divideAndConstruct(0, inorder.size());
+        return divideAndConstruct(numeric_limits<int>::min(), numeric_limits<int>::max());
     }
     
-    // [inLeft, inRight)
-    TreeNode* divideAndConstruct(size_t inLeft, size_t inRight)
+    TreeNode* divideAndConstruct(int lower, int upper)
     {
-        if (inLeft == inRight) return nullptr;
-        
-        auto val = preorder[preIdx++];
+        if (preIdx == preorder.size())
+        {
+            return nullptr;
+        }
+        auto val = preorder[preIdx];
+        if (val < lower || val > upper)
+        {
+            return nullptr;
+        }
+        preIdx++;
         auto root = new TreeNode(val);
-        
-        root->left = divideAndConstruct(inLeft, map[val]);
-        root->right= divideAndConstruct(map[val] + 1, inRight);
+        root->left = divideAndConstruct(lower, val);
+        root->right = divideAndConstruct(val, upper);
         return root;
     }
 };
