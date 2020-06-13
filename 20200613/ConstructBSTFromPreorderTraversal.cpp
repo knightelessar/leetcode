@@ -10,30 +10,36 @@
  * };
  */
 class Solution {
-    vector<int> preorder;
-    size_t preIdx;
 public:
     TreeNode* bstFromPreorder(vector<int>& preorder) {
-        this->preorder = preorder;
-        preIdx = 0;
-        return divideAndConstruct(numeric_limits<int>::min(), numeric_limits<int>::max());
-    }
-    
-    TreeNode* divideAndConstruct(int lower, int upper)
-    {
-        if (preIdx == preorder.size())
+        if (preorder.size() == 0) return nullptr;
+        stack<TreeNode*> myStack;
+        auto root = new TreeNode(preorder[0]);
+        myStack.push(root);
+        
+        for (size_t i{1}; i < preorder.size(); ++i)
         {
-            return nullptr;
+            auto root = myStack.top();
+            auto child = new TreeNode(preorder[i]);
+            
+            if (child->val < root->val) {
+                root->left = child;
+                myStack.push(child);
+                continue;
+            }
+            
+            while (!myStack.empty() && child->val > myStack.top()->val)
+            {
+                root = myStack.top();
+                myStack.pop();
+            }
+            
+            if (child->val > root->val)
+            {
+                root->right = child;
+                myStack.push(child);
+            }
         }
-        auto val = preorder[preIdx];
-        if (val < lower || val > upper)
-        {
-            return nullptr;
-        }
-        preIdx++;
-        auto root = new TreeNode(val);
-        root->left = divideAndConstruct(lower, val);
-        root->right = divideAndConstruct(val, upper);
         return root;
     }
 };
