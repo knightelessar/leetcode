@@ -2,15 +2,15 @@ class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int K) {
         // K stops means K+1 Bellman Ford iterations over the edge list
-        // Bellman Ford should use V - 1 iterations, 
+        // Bellman Ford should use V - 1 iterations,
         // After V - 1, it gives incorrect shortest distances when negative cycles exist.
         // Here V = n. K <= n - 1. So K+1 <= n, so K+1 <= V, the last iteration is valid
         // since the problem guarantees no self cycles.
-        
+
         // Note vector<int> (N_SIZE, INIT_VAL)
         vector<int> dist(n, numeric_limits<int>::max());
         dist[src] = 0;
-        
+
         for (size_t i{0}; i < K + 1; ++i)
         {
             vector<int> tmp = dist;
@@ -26,7 +26,7 @@ public:
             }
             dist = tmp;
         }
-        
+
         return dist[dst] == numeric_limits<int>::max() ? -1 : dist[dst];
     }
 };
